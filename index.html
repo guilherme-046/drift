@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drift Society</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      overflow-x: hidden;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background 0.8s, color 0.8s;
+    }
+
+    :root {
+      --bg: #0a0a0a;
+      --text: #fff;
+    }
+
+    body.light {
+      --bg: #f5f5f5;
+      --text: #111;
+    }
+
+    section {
+      padding: 60px 10%;
+      text-align: center;
+    }
+
+    h1, h2 {
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    video {
+      width: 80%;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    video:hover {
+      transform: scale(1.03);
+    }
+
+    /* ======= INTRO ======= */
+    #intro {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100vh;
+      background: linear-gradient(135deg, #000, #111);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      flex-direction: column;
+      color: #fff;
+      animation: fadeOut 3s ease 4s forwards;
+    }
+
+    @keyframes fadeOut {
+      to { opacity: 0; visibility: hidden; }
+    }
+
+    #intro h1 {
+      font-size: 3rem;
+      letter-spacing: 3px;
+      animation: pulse 3s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { text-shadow: 0 0 10px #0ff, 0 0 20px #0ff; }
+      to { text-shadow: 0 0 40px #0ff, 0 0 80px #0ff; }
+    }
+
+    /* ======= BOTÕES ======= */
+    #scrollTop, #scrollBottom, #musicToggle, #themeToggle, #engineToggle {
+      position: fixed;
+      right: 20px;
+      background: #0ff;
+      color: #000;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s, background 0.3s;
+      z-index: 100;
+    }
+
+    #scrollTop { bottom: 120px; }
+    #scrollBottom { bottom: 70px; }
+    #musicToggle { bottom: 20px; left: 20px; right: auto; }
+    #themeToggle { bottom: 70px; left: 20px; right: auto; }
+    #engineToggle { bottom: 120px; left: 20px; right: auto; }
+
+    #scrollTop:hover, #scrollBottom:hover, #musicToggle:hover, #themeToggle:hover, #engineToggle:hover {
+      transform: scale(1.1);
+      background: #06b6d4;
+    }
+
+    /* ======= LIGHTBOX ======= */
+    #lightbox {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+      z-index: 9998;
+    }
+
+    #lightbox video {
+      width: 80%;
+      max-width: 800px;
+      border: 2px solid #0ff;
+    }
+
+    /* ======= RODAPÉ ======= */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #111;
+      color: #0ff;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      border-top: 1px solid #0ff;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ======= INTRO ======= -->
+  <div id="intro">
+    <h1>Drift Society</h1>
+    <p>Tokyo Drift vibes... relax and ride</p>
+  </div>
+
+  <!-- ======= ÁUDIOS ======= -->
+  <audio id="bgMusic" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2024/01/15/audio_c4a060c58d.mp3?filename=lofi-vibes-190379.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="engineSound" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2023/03/30/audio_b451b5c77c.mp3?filename=car-engine-idle-loop-14451.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="clickSound">
+    <source src="https://cdn.pixabay.com/download/audio/2023/04/06/audio_4a8ce8f50a.mp3?filename=button-click-140881.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- ======= CONTEÚDO ORIGINAL ======= -->
+  <section id="historia">
+    <h2>História do Drift</h2>
+    <p>O drift nasceu nas montanhas do Japão...</p>
+    <video src="video-drift.mp4" controls></video>
+  </section>
+
+  <!-- ======= BOTÕES ======= -->
+  <button id="scrollTop">⬆</button>
+  <button id="scrollBottom">⬇</button>
+  <button id="musicToggle">🎵 Música</button>
+  <button id="themeToggle">🌗 Tema</button>
+  <button id="engineToggle">🚗 Motor</button>
+
+  <!-- ======= LIGHTBOX ======= -->
+  <div id="lightbox">
+    <video controls></video>
+  </div>
+
+  <!-- ======= RODAPÉ ======= -->
+  <footer>
+    <p>© 2025 Drift Society | Desenvolvido por Guilherme Santana 🤙</p>
+    <p>Música: “Lofi Vibes” – Pixabay | Sons: “Car Engine Idle Loop” e “Button Click” – Pixabay</p>
+  </footer>
+
+  <script>
+    // ======= INTRO =======
+    window.addEventListener('load', () => {
+      const music = document.getElementById('bgMusic');
+      const engine = document.getElementById('engineSound');
+      setTimeout(() => {
+        music.play().catch(()=>{});
+        engine.play().catch(()=>{});
+      }, 2000);
+    });
+
+    // ======= MÚSICA PLAY/PAUSE =======
+    const music = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicToggle');
+    let playingMusic = true;
+    musicBtn.addEventListener('click', () => {
+      if (playingMusic) {
+        music.pause();
+        musicBtn.textContent = '🎧 Tocar Música';
+      } else {
+        music.play();
+        musicBtn.textContent = '🔇 Parar Música';
+      }
+      playingMusic = !playingMusic;
+    });
+
+    // ======= MOTOR PLAY/PAUSE =======
+    const engine = document.getElementById('engineSound');
+    const engineBtn = document.getElementById('engineToggle');
+    let playingEngine = true;
+    engineBtn.addEventListener('click', () => {
+      if (playingEngine) {
+        engine.pause();
+        engineBtn.textContent = '🚘 Ligar Motor';
+      } else {
+        engine.play();
+        engineBtn.textContent = '🛑 Parar Motor';
+      }
+      playingEngine = !playingEngine;
+    });
+
+    // ======= TEMA =======
+    const themeBtn = document.getElementById('themeToggle');
+    themeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+    });
+
+    // ======= ROLAGEM =======
+    document.getElementById('scrollTop').onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('scrollBottom').onclick = () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+
+    // ======= CLIQUE =======
+    const clickSound = document.getElementById('clickSound');
+    [musicBtn, themeBtn, engineBtn, document.getElementById('scrollTop'), document.getElementById('scrollBottom')].forEach(btn=>{
+      btn.addEventListener('click',()=>{ clickSound.currentTime=0; clickSound.play().catch(()=>{}); });
+    });
+
+    // ======= LIGHTBOX =======
+    const lightbox = document.getElementById('lightbox');
+    const lightboxVideo = lightbox.querySelector('video');
+    document.querySelectorAll('video').forEach(v=>{
+      v.addEventListener('click', ()=>{
+        lightbox.style.display = 'flex';
+        lightboxVideo.src = v.src;
+        lightboxVideo.play();
+      });
+    });
+    lightbox.addEventListener('click', ()=>{
+      lightbox.style.display = 'none';
+      lightboxVideo.pause();
+    });
+  </script>
+</body>
+</html>
+
+
+  <!-- ORIGINAL CONTENT END -->
+
+  </div>
+  <!-- ================== FIM DO ORIGINAL - elementos reais do site já estão mantidos no documento final abaixo ================== -->
+
+  <!-- ================================================================= -->
+  <!-- Para evitar duplicação confusa na página final, abaixo eu **reinsiro o teu HTML original**
+       de forma contínua (conteúdo e marcação mantidos). Esse bloco substitui o placeholder acima. -->
+  <!-- ================================================================= -->
+
+  <!-- === INÍCIO: RECOLOCAÇÃO DO SITE ORIGINAL (conteúdo preservado) === -->
+  <!-- Vou reinserir fielmente tudo que você enviou, preservando IDs e caminhos midia/... -->
+
+  <!-- Mantive o DOCTYPE e <html> no topo do arquivo real — aqui vamos direto ao corpo do conteúdo real: -->
+
+  <!-- --- COMEÇO DO CONTEÚDO ORIGINAL REINSERIDO --- -->
+  <div id="site-content-preserved">
+    <!-- Áudio ambiente original (mantido) -->
+    <audio id="motorSoundOriginal" autoplay loop>
+      <source src="midia/Voicy_Supra.mp3" type="audio/mpeg">
+      Seu navegador não suporta áudio.
+    </audio>
+
+    <!-- Roda interativa original -->
+    <div style="text-align:center; margin-top:40px">
+      <img src="midia/40791defe7ae13714611621d7a0ea114-roda-de-carro-moderna-cortada.webp" id="wheel" width="150" alt="Roda girando" style="cursor:pointer; transition: transform 2s;">
+      <p style="color: #ccc;">Clique na roda para ouvir o som do motor!</p>
+    </div>
+
+    <!-- Drift highlight (original) -->
+    <section class="drift-highlight">
+      <h2>A Filosofia do Drift</h2>
+      <p>Drift não é apenas uma técnica de direção, é uma verdadeira arte. Para muitos, é uma forma de expressão pessoal e uma maneira de enfrentar desafios. No drift, o piloto não está apenas "dirigindo de lado", mas dominando uma dança entre o controle e o caos, a velocidade e a precisão. É sobre deixar-se levar pela adrenalina, sentir a máquina como uma extensão de si mesmo e empurrar os limites, desafiando o carro, a física e, por vezes, até as próprias emoções.</p>
+      <p>O drift transcende as pistas de corrida. Ele começa no coração do piloto, onde coragem e habilidade se encontram com a pura paixão por velocidade. Cada manobra, cada derrapada, é uma conversa silenciosa entre o carro e o piloto. Não é apenas sobre vencer; é sobre criar um espetáculo, sobre fazer da dificuldade uma obra-prima, sobre transformar a velocidade em uma sinfonia de fumaça, borracha e rugido do motor.</p>
+      <p>Em muitas culturas, o drift é visto como uma metáfora para a vida: uma luta constante para encontrar o equilíbrio entre o controle e o abandono, entre seguir o fluxo e desafiar os limites. Ele ensina que, às vezes, é preciso sair da zona de conforto e arriscar-se para atingir novos níveis de sucesso. E que, mesmo quando a trajetória parece fora de controle, é possível encontrar harmonia e beleza na adversidade.</p>
+      <p>O drift também é profundamente ligado à cultura automotiva, sendo uma expressão de liberdade dentro do mundo das máquinas. Pilotos de drift não estão apenas competindo contra os outros; eles estão buscando uma conexão com seus carros, com a pista, com os espectadores. Cada curva é uma oportunidade de mostrar habilidade, estilo e coragem. Eles não apenas dominam a técnica, mas também a estética do movimento — a arte do drift é vista por muitos como um reflexo da própria natureza humana: imprevisível, desafiante e cheia de paixão.</p>
+      <p>Essa filosofia tem raízes profundas na cultura do Japão, onde o drift ganhou popularidade na década de 1970 com pilotos como <strong>Keiichi Tsuchiya</strong>, o "Drift King". No entanto, a filosofia do drift se espalhou pelo mundo e agora é uma linguagem universal que une pilotos e fãs em uma experiência compartilhada de emoção e adrenalina. O drift é mais do que um esporte — é uma cultura de coragem, precisão, e uma celebração da liberdade nas estradas.</p>
+      <div class="quote-box">
+        "Quando você entra na curva, você não está apenas pilotando — você está contando uma história com fumaça e borracha." <br>
+        <strong>- Daigo Saito</strong>
+      </div>
+    </section>
+
+    <!-- Galeria (original) -->
+    <section class="galeria">
+      <img src="midia/drift-cars-close-up-nissan-silvia-r8mxfxgos06v4qo7.jpg" alt="Carro de drift 1">
+      <img src="midia/o-que-e-drift.jpg" alt="Carro de drift 2">
+      <img src="midia/voce-sabe-o-que-e-drift.jpg" alt="Carro de drift 3">
+      <img src="midia/what-are-the-best-drift-cars-in-the-game-v0-msa2x792x7ac1.jpg" alt="Evento de drift">
+    </section>
+
+    <!-- Dicas -->
+    <section id="dicas">
+      <div class="container">
+        <h2>Dicas para Iniciantes no Drift</h2>
+        <p>Se você está começando no drift, saiba que a prática constante e a paciência são fundamentais para se tornar um bom piloto. O drift não é apenas sobre potência, mas sobre controle, técnica e leitura do carro. Aqui estão algumas dicas adicionais para ajudar você a melhorar suas habilidades no drift:</p>
+        <ul>
+          <li><strong>Comece com um carro leve:</strong> Carros com boa distribuição de peso e tração traseira são ideais para iniciantes. Carros leves são mais fáceis de controlar e exigem menos potência para começar a derrapagem.</li>
+          <li><strong>Domine a técnica do "Clutch Kick":</strong> Uma das técnicas essenciais para iniciar o drift de forma controlada. O "clutch kick" envolve pressionar o pedal da embreagem de maneira rápida para soltar a tração nas rodas traseiras, fazendo com que o carro derrape.</li>
+          <li><strong>Pratique em locais seguros:</strong> Procure pistas ou áreas fechadas para treinar sem riscos. O drift exige muito espaço, e a prática em locais apropriados evita acidentes e garante que você possa se concentrar no aprendizado.</li>
+          <li><strong>Entenda o equilíbrio do carro:</strong> Aprenda a sentir o comportamento do carro durante o drift. Cada carro reage de maneira diferente, por isso é importante conhecer o limite de aderência de seu carro e como ele se comporta em alta rotação.</li>
+          <li><strong>Tenha paciência:</strong> O drift é uma habilidade que requer prática constante e paciência. Você pode não aprender tudo de uma vez, mas, com o tempo, a técnica se tornará mais natural.</li>
+          <li><strong>Use pneus adequados:</strong> Para aprender a derrapagem, é fundamental ter pneus que permitam o deslizamento controlado. Pneus de alta aderência podem ser difíceis de controlar, por isso comece com pneus que ofereçam mais aderência no início e, gradualmente, passe para pneus de performance.</li>
+          <li><strong>Aprenda a controlar a aceleração:</strong> O controle da aceleração é fundamental no drift. Ao acelerar demais, o carro pode sair de controle, e acelerar de menos pode fazer com que o carro perca velocidade e tração. Encontre o equilíbrio para manter a derrapagem constante.</li>
+          <li><strong>Estude a teoria:</strong> Embora a prática seja essencial, entender a física por trás do drift pode melhorar muito sua performance. Estude sobre o ângulo de drift, a distribuição de peso e como diferentes superfícies afetam o controle do carro.</li>
+          <li><strong>Assista a vídeos e analise manobras:</strong> Uma ótima maneira de aprender é observar outros pilotos. Estude vídeos de drift e preste atenção nas técnicas usadas pelos profissionais para melhorar sua própria técnica.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Tecnologia -->
+    <section id="tecnologia">
+      <div class="container">
+        <h2>Tecnologia no Drift</h2>
+        <p>O drift é uma mistura perfeita entre habilidade humana e tecnologia de ponta. Com o passar dos anos, a tecnologia no drift tem evoluído, com novos sistemas e dispositivos que tornam os carros mais potentes, controláveis e eficientes. Hoje em dia, os carros de drift não são apenas modificados para ganhar potência, mas para proporcionar o controle absoluto, permitindo que o piloto possa executar manobras complexas com precisão milimétrica. Vamos explorar alguns dos principais avanços tecnológicos que revolucionaram o drift.</p>
+        <ul>
+          <li><strong>Suspensão Ajustável:</strong> A suspensão de um carro de drift é um dos aspectos mais cruciais para garantir que ele se comporte de maneira ideal durante uma derrapagem. Sistemas de suspensão ajustáveis permitem que os pilotos configurem a rigidez e a altura do carro para se adaptar às condições da pista. Carros com suspensão ajustável permitem que o piloto modifique a aderência e o comportamento do veículo durante a frenagem e as curvas, resultando em mais controle sobre o carro durante a manobra de drift.</li>
+          <li><strong>Controle de Tração Desativável:</strong> Em carros de drift, o controle de tração (TC) é desativado para que as rodas traseiras possam patinar livremente. Sem essa limitação, o piloto pode controlar a derrapagem com mais liberdade e precisão. A capacidade de desativar o TC dá ao piloto o controle total sobre o momento e a intensidade da derrapagem, o que é essencial em competições.</li>
+          <li><strong>Roll Cage (Gaiola de Proteção):</strong> O roll cage é uma estrutura de segurança interna fundamental para os pilotos de drift. Ele protege o piloto durante os eventos de maior risco, como colisões ou capotamentos. Além de ser uma exigência em campeonatos de alto nível, o roll cage também ajuda a melhorar a rigidez do chassis, contribuindo para uma resposta mais precisa do carro em manobras extremas.</li>
+          <li><strong>Turbo e Supercharger:</strong> O aumento de potência é uma parte vital do drift. O uso de turbos e superchargers ajuda os carros de drift a gerar mais potência de forma eficiente, permitindo que o piloto mantenha a velocidade necessária para executar drifts longos e controlados. Esses sistemas são ajustados para garantir que o motor não apenas tenha potência suficiente, mas também uma entrega de torque suave, o que é crucial para controlar o carro em altas rotações.</li>
+          <li><strong>Data Logging e Telemetria:</strong> Com a tecnologia de telemetria, os pilotos têm acesso a informações em tempo real sobre o desempenho do carro, como pressão de pneus, temperatura do motor, ângulo de drift e força G. Esses dados são analisados antes, durante e após as corridas para otimizar a performance do carro e ajustar as estratégias de pilotagem. Muitos carros de drift de última geração possuem sensores que monitoram esses dados e os enviam para um sistema de análise, o que permite ajustes rápidos e precisos.</li>
+          <li><strong>Sistemas de Freio de Mão Hidráulico:</strong> Um componente crucial para a execução do drift, o freio de mão hidráulico permite que o piloto bloqueie as rodas traseiras com mais precisão, ajudando a iniciar a derrapagem ou corrigir o ângulo durante a manobra. Diferente do freio de mão tradicional, o sistema hidráulico oferece maior força e controle, essencial para drifts de alta performance.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Campeonatos -->
+    <section id="campeonatos">
+      <div class="container">
+        <h2>Como Funciona um Campeonato de Drift?</h2>
+        <p>Os campeonatos de drift não são apenas uma competição de velocidade; são uma verdadeira batalha de habilidade, estilo e precisão. Pilotos de todo o mundo competem em circuitos desafiadores, onde a técnica de drifting é colocada à prova. Vamos entender como esses campeonatos são estruturados, quais são as fases e como os pilotos são avaliados.</p>
+        <h3>Formato de Competição</h3>
+        <p>O formato de um campeonato de drift pode variar dependendo da organização, mas geralmente segue um padrão de eliminatórias e batalhas diretas. A estrutura básica inclui:</p>
+        <ul>
+          <li><strong>Qualificação:</strong> Antes das batalhas, os pilotos precisam passar por uma sessão de qualificação. Nesta fase, cada piloto deve executar um drift perfeito ao longo de uma pista pré-determinada, demonstrando controle, estilo e habilidade. A pontuação é baseada na precisão do drift, no ângulo de derrapagem, na velocidade e na fluidez das manobras. Os pilotos com as melhores pontuações avançam para a próxima fase.</li>
+          <li><strong>Eliminações de 1 vs 1:</strong> Após a qualificação, os melhores pilotos competem diretamente em batalhas de 1 vs 1. Cada piloto tenta imitar o drift do outro enquanto executa a sua própria manobra, sendo avaliado por uma série de critérios técnicos e estéticos. O piloto que melhor controlar seu carro e realizar as manobras mais impressionantes é o vencedor da batalha.</li>
+          <li><strong>Julgamento Técnico e Estético:</strong> O julgamento em um campeonato de drift é uma combinação de técnica e estilo. Os juízes observam os seguintes critérios durante a avaliação:</li>
+          <ul>
+            <li><strong>Ângulo de Drift:</strong> A profundidade da derrapagem, ou seja, o quanto as rodas traseiras estão deslizandp lateralmente em relação à direção do carro.</li>
+            <li><strong>Velocidade:</strong> A capacidade do piloto de manter a velocidade durante a derrapagem sem perder o controle do carro.</li>
+            <li><strong>Fluidez:</strong> O quão suave e contínuo o drift é. Pilotos que conseguem transitar pelas curvas com precisão, sem interrupções bruscas, recebem notas mais altas.</li>
+            <li><strong>Proximidade dos Muros:</strong> Em algumas pistas, o piloto é avaliado pela proximidade que consegue atingir ao se aproximar de obstáculos como muros ou cones, sem causar danos ao carro. Isso demonstra confiança e precisão.</li>
+          </ul>
+          <li><strong>Final:</strong> A grande final geralmente reúne os dois melhores pilotos, que competem em uma série de batalhas para determinar o vencedor do campeonato. O vencedor é aquele que consegue conquistar os juízes com a combinação perfeita de técnica, estilo e coragem.</li>
+        </ul>
+
+        <h3>Aspectos Culturais e Espirituais do Drift nas Competições</h3>
+        <p>Embora a competição de drift seja intensa, ela também é profundamente conectada à cultura do esporte. O respeito entre os pilotos, a camaradaria e o apoio mútuo são fundamentais em todos os eventos. Pilotos mais experientes frequentemente compartilham seus conhecimentos com iniciantes, ajudando a promover o crescimento do esporte como um todo. Em muitos campeonatos, a estética do drift e a performance individual são celebradas tanto quanto os resultados finais. Em competições mais descontraídas, o público também é parte ativa, com aplausos e gritos de incentivo a cada manobra impressionante.</p>
+        <p>Além disso, alguns campeonatos de drift são verdadeiros espetáculos, misturando o esporte com a cultura automobilística e a música. As arenas se tornam locais de reunião para fãs, que compartilham sua paixão pelos carros, pelas manobras e pela experiência única de ver os melhores pilotos do mundo em ação.</p>
+      </div>
+    </section>
+
+    <!-- Videos -->
+    <section id="videos">
+      <div class="container">
+        <h2>Galeria de Vídeos</h2>
+        <p>Aqui você pode assistir a alguns vídeos épicos de competições de drift, manobras e bastidores. Prepare-se para se emocionar com as habilidades incríveis desses pilotos e se inspirar para a sua própria jornada no drift.</p>
+        <div class="videos">
+          <!-- Vídeos já existentes -->
+          <iframe width="560" height="315" src="https://youtube/zw_xJjb4a3c?si=S_6Jqf66enUwchay" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <iframe width="560" height="315" src="https://youtube/2dFREwL14a4?si=DyC8W5Harf_DLvlu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <!-- Novos vídeos adicionados -->
+          <iframe width="560" height="315" src="https://youtube/RzYHSgRm2S8?si=PgnrDmGa8GU2jP_e" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <iframe width="560" height="315" src="https://youtube/Hg6L_7qLIEQ?si=6lpYEvRSlCKtNTWg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <iframe width="560" height="315" src="https://youtube/PrqYohBV58o?si=lxufck4nN4_fCt9T" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <iframe width="560" height="315" src="https://youtube/W8_eFKEEX6c?si=T-86JhX0eeBUFiYl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- Carros -->
+    <section id="carros">
+      <div class="container">
+        <h2>Carros de Drift Icônicos</h2>
+        <p>O drift tem uma história marcada por carros lendários que se destacaram em competições e se tornaram símbolos do esporte. Conheça alguns dos carros mais emblemáticos do drift:</p>
+        <ul>
+          <li><strong>Nissan Silvia S15</strong>
+            <p>Considerado um dos carros mais populares no mundo do drift, o Nissan Silvia S15 é conhecido por sua tração traseira e agilidade nas curvas. Esse carro tem sido um favorito nas competições de drift por sua confiabilidade e equilíbrio.</p>
+            <img src="midia/de514b108e9aabb7a1fe96d45432dfbd.jpg" alt="Nissan Silvia S15" style="width: 100%; max-width: 600px; border-radius: 8px;">
+          </li>
+          <li><strong>Toyota Supra Mk4</strong>
+            <p>O Toyota Supra Mk4 é um dos carros mais icônicos no drift, com um motor 2JZ potente que oferece uma performance impressionante. Com sua grande potência e torque, é um dos carros mais populares em competições de drift e tuning.</p>
+            <img src="midia/TOYOTA-SUPRA-MK4-6-scaled.jpg.webp" alt="Toyota Supra Mk4" style="width: 100%; max-width: 600px; border-radius: 8px;">
+          </li>
+          <li><strong>Ford Mustang RTR</strong>
+            <p>O Ford Mustang RTR é um dos carros mais impressionantes no drift, sendo projetado especificamente para o esporte. Com uma enorme potência e um visual agressivo, o Mustang RTR é uma escolha popular entre pilotos que buscam força bruta e controle.</p>
+            <img src="midia/MustangRTR_SET2018 (1).jpg" alt="Ford Mustang RTR" style="width: 100%; max-width: 600px; border-radius: 8px;">
+          </li>
+          <li><strong>BMW M3 E46</strong>
+            <p>O BMW M3 E46 é conhecido por sua excelente distribuição de peso e tração traseira, o que o torna perfeito para o drift. Sua dirigibilidade precisa e a resposta rápida do motor o tornam um dos carros mais usados em competições de drift ao redor do mundo.</p>
+            <img src="midia/the-iconic-nfs-most-wanted-bmw-m3-gtr-is-now-a-museum-piece-v0-cQXi-62vYcZYg1BUTFLuRxXavwX8R7ytuGWvMZh_P1Q.webp" alt="BMW M3 E46" style="width: 100%; max-width: 600px; border-radius: 8px;">
+          </li>
+          <li><strong>Mazda RX-7 FD3S</strong>
+            <p>O Mazda RX-7, com seu motor rotativo, é um carro que marcou história no drift. A leveza e o equilíbrio desse carro fazem dele uma excelente escolha para aqueles que buscam um carro ágil e com grande capacidade de derrapagem.</p>
+            <img src="midia/rx7 (1).jpg" alt="Mazda RX-7 FD3S" style="width: 100%; max-width: 600px; border-radius: 8px;">
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Pilotos -->
+    <section id="pilotos">
+      <div class="container">
+        <h2>Pilotos Famosos de Drift</h2>
+        <p>O drift não seria o esporte emocionante que é hoje sem os pilotos que ajudaram a levá-lo aos palcos globais. Aqui estão alguns dos maiores nomes do drift, que se destacaram nas competições e na popularização do esporte:</p>
+        <ul>
+          <li><strong>Keiichi Tsuchiya (Drift King):</strong> Conhecido como o "Drift King", Tsuchiya é um dos pioneiros do drift moderno. Sua habilidade inquestionável nas curvas e seu papel como mentor e influenciador ajudaram a estabelecer o drift como um esporte legítimo. Tsuchiya também foi o criador de várias técnicas de drift e foi protagonista da série de filmes <em>Initial D</em>.</li>
+          <li><strong>Daigo Saito:</strong> Considerado um dos maiores pilotos de drift de todos os tempos, Daigo Saito ganhou notoriedade com sua agressividade e precisão. Ele foi campeão do D1 Grand Prix e é conhecido por pilotar o Toyota Chaser JZX100, que ele modificou para se tornar uma máquina de drift imbatível. Seu estilo agressivo e habilidades excepcionais o tornaram uma lenda no esporte.</li>
+          <li><strong>Vaughn Gittin Jr.:</strong> Um dos pilotos mais conhecidos internacionalmente, Vaughn Gittin Jr. é famoso por suas vitórias na Fórmula Drift e por seu estilo único e carisma. Ele pilota o Ford Mustang RTR, um carro que combina o estilo de drift com a potência do muscle car. Gittin Jr. é um verdadeiro ícone do drift americano.</li>
+          <li><strong>Ken Block:</strong> Conhecido por seus vídeos "Gymkhana", onde realiza manobras incríveis em carros modificados, Ken Block ajudou a popularizar o drift em todo o mundo. Seu estilo de condução, habilidade técnica e ousadia nas manobras o tornaram um dos pilotos mais amados, especialmente entre os fãs da cultura automobilística.</li>
+          <li><strong>Chris Forsberg:</strong> Triplo campeão da Fórmula Drift, Forsberg é um dos pilotos mais consistentes e técnicos do drift. Ele é conhecido por sua precisão e controle, e sua rivalidade com outros grandes nomes do drift, como Vaughn Gittin Jr., fez a Fórmula Drift ainda mais emocionante.</li>
+          <li><strong>Ryan Tuerck:</strong> Outro piloto famoso da Fórmula Drift, Ryan Tuerck é conhecido por seu estilo dinâmico e inovador. Ele também é popular por suas colaborações com marcas e pilotos, e por ser um dos principais influenciadores do drift na América do Norte.</li>
+          <li><strong>James Deane:</strong> O irlandês James Deane é um dos maiores nomes do drift mundial, com múltiplos títulos do <em>Drift Masters Grand Prix</em> e vitórias em competições internacionais. Sua habilidade técnica e consistência em manobras o colocaram entre os melhores do mundo.</li>
+          <li><strong>Ashley Sutton:</strong> Embora mais recente, Ashley Sutton é uma piloto feminina que tem ganhado destaque na cena do drift, especialmente no Reino Unido. Ela já se tornou uma das promessas mais empolgantes do esporte e é uma referência para a inclusão de mulheres no motorsport.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- História -->
+    <section id="historia">
+      <div class="container">
+        <h2>História do Drift</h2>
+        <p>O drift, como esporte e técnica de direção, tem raízes profundas na cultura automotiva japonesa. Surgiu nas montanhas sinuosas do Japão nas décadas de 1970 e 1980, onde motoristas, conhecidos como "touge" (termo japonês para "estradas de montanha"), começaram a desafiar suas habilidades ao dirigir em alta velocidade através dessas estradas estreitas e íngremes. A técnica era usada para descer essas montanhas com o carro derrapando de forma controlada, aproveitando a tração traseira dos carros, muitas vezes modificado para esse fim.</p>
+        <p>O pioneiro desta prática foi Kunisuke Kato, que começou a aperfeiçoar o estilo de direção nos anos 70. Durante esse período, as manobras eram vistas como algo perigoso, mas também incrivelmente impressionante para quem assistia. O drift, como um estilo de direção, rapidamente se espalhou por todo o Japão, especialmente nas ruas da região de Kanagawa, e se tornou um símbolo de rebeldia, coragem e habilidade no volante.</p>
+        <p>Nos anos 90, o drift começou a ser reconhecido oficialmente como esporte e, no início dos anos 2000, foi criado o <strong>All Japan D1 Grand Prix</strong>, que deu origem à primeira série de competições organizadas. Esse evento atraiu os melhores pilotos de drift do Japão e de outros países, transformando o drift em um fenômeno global.</p>
+        <p>O esportista e empresário <strong>Keiichi Tsuchiya</strong>, conhecido como o "Drift King", também teve um papel crucial na popularização do drift, tanto no Japão quanto fora dele. Tsuchiya foi um dos primeiros a competir oficialmente em eventos de drift e ajudou a definir as regras do esporte como um todo. Ele também foi o responsável por dar visibilidade ao drift no exterior, em grande parte através de sua participação em filmes como <em>Initial D</em> e seus vídeos de drift.</p>
+        <p>Desde então, o drift continuou a crescer e evoluir como esporte. Pilotos como Daigo Saito, Vaughn Gittin Jr. e Ken Block ajudaram a trazer o drift para o mainstream, levando o esporte a uma audiência global através de filmes, vídeos no YouTube e, principalmente, as redes sociais. Hoje, o drift é praticado em várias partes do mundo, com grandes campeonatos, como o <strong>Formula Drift</strong> e o <strong>Drift Masters Grand Prix</strong>, atraindo fãs e patrocinadores de todos os cantos do planeta.</p>
+        <p>Em suma, o drift não é apenas uma técnica de direção, mas uma expressão de habilidade, estilo e liberdade. Sua evolução reflete a paixão por carros e pelo automobilismo, transformando o que começou como uma prática de estrada em uma das disciplinas mais emocionantes do mundo do motorsport.</p>
+      </div>
+    </section>
+
+    <!-- Ensinamentos -->
+    <section id="ensinamentos">
+      <div class="container">
+        <h2>Ensinamentos do Drift</h2>
+        <p>Embora o drift seja um esporte empolgante e desafiador, ele carrega uma série de lições valiosas que podem ser aplicadas tanto no volante quanto na vida cotidiana. Através das manobras complexas e do controle exigido, os pilotos aprendem lições que vão além das pistas, e estas podem servir como inspiração para enfrentar os desafios do dia a dia.</p>
+        <ul>
+          <li><strong>Controle Sob Pressão:</strong> O drift exige que o piloto tenha um controle perfeito do carro, muitas vezes em condições extremas e de alta velocidade. Em uma competição, o tempo e a pressão aumentam ainda mais, mas a habilidade de manter a calma e tomar decisões rápidas faz a diferença. Este ensinamento se aplica diretamente à vida real, onde podemos enfrentar situações de alta pressão e precisamos ser capazes de manter o controle das nossas ações e pensamentos, não importa o quão difíceis as circunstâncias sejam.</li>
+          <li><strong>Resiliência e Persistência:</strong> O drift não é algo que se aprende de uma hora para a outra. Envolve muito treinamento, falhas e superação. Pilotos iniciantes frequentemente derrapam fora de pista, fazem erros, mas a chave para o sucesso é a persistência. Isso se reflete na vida: não podemos desistir nos primeiros obstáculos. O sucesso vem com a prática constante, aprendizado com os erros e a vontade de seguir em frente.</li>
+          <li><strong>Visão e Antecipação:</strong> Em uma corrida de drift, o piloto precisa ter uma visão clara da pista, antecipar a próxima curva, as mudanças de terreno e as reações do carro. A antecipação é essencial para se sair bem. Isso nos ensina a importância de se planejar e pensar à frente na vida. Estar ciente dos desafios futuros e estar preparado pode ser a chave para o sucesso em qualquer área.</li>
+          <li><strong>Equilíbrio e Harmonia:</strong> O drift é uma dança entre o carro e o piloto. Um piloto experiente sabe exatamente quando e como equilibrar a aceleração, frenagem e direção para manter o carro controlado e realizando a manobra com precisão. Isso ensina sobre o equilíbrio em nossas próprias vidas: saber quando agir, quando recuar e como encontrar harmonia entre trabalho, descanso e diversão.</li>
+          <li><strong>Adaptação às Mudanças:</strong> Durante uma corrida, as condições da pista podem mudar rapidamente. O clima pode mudar, o carro pode apresentar falhas ou o rival pode adotar novas estratégias. Um bom piloto precisa ser ágil e capaz de se adaptar às mudanças em tempo real. A vida é cheia de imprevistos, e a capacidade de se ajustar, aprender a lidar com o inesperado e adaptar-se a novas circunstâncias é uma habilidade essencial para o sucesso.</li>
+          <li><strong>Trabalho em Equipe:</strong> Embora o drift seja muitas vezes visto como um esporte individual, ele exige uma grande quantidade de trabalho em equipe nos bastidores. Os pilotos contam com suas equipes para ajudar a ajustar o carro, garantir que tudo funcione perfeitamente e dar o suporte necessário para o sucesso. Da mesma forma, na vida, ninguém alcança grandes feitos sozinho. O apoio de uma boa equipe é fundamental, seja no trabalho, na família ou em qualquer empreendimento pessoal.</li>
+        </ul>
+        <p>Essas lições, aprendidas nas pistas de drift, vão muito além do volante. Elas nos lembram da importância de ter foco, resiliência e, acima de tudo, a coragem de ir além dos limites. O drift é mais do que apenas um esporte; é um reflexo de como devemos abordar os desafios da vida com confiança, habilidade e paciência.</p>
+      </div>
+    </section>
+  </div>
+  <!-- --- FIM DO CONTEÚDO ORIGINAL REINSERIDO --- -->
+
+  <!-- ================== ADIÇÕES FUNCIONAIS ================== -->
+
+  <!-- Fixed control buttons -->
+  <button id="ds-sound" class="ds-fixed-btn" aria-label="Controlar Som">🔊</button>
+  <button id="ds-theme" class="ds-fixed-btn" aria-label="Alternar Tema">🌙</button>
+  <button id="ds-scroll-top" class="ds-fixed-btn" aria-label="Subir">⬆</button>
+  <button id="ds-scroll-next" class="ds-fixed-btn" aria-label="Próxima Seção">⬇</button>
+
+  <!-- Intro cinematic (in-page overlay) -->
+  <div id="ds-intro" aria-hidden="false">
+    <div class="logo">Drift Society</div>
+    <div class="sub">A adrenalina começa agora...</div>
+  </div>
+
+  <!-- Ambient and effects audio (lo-fi + SFX) -->
+  <audio id="ds-music" src="https://cdn.pixabay.com/download/audio/2022/03/30/audio_26efbafc89.mp3?filename=drift-vibes-110669.mp3" loop preload="auto"></audio>
+  <audio id="ds-motor" src="https://cdn.pixabay.com/download/audio/2023/03/06/audio_87d836ddf8.mp3?filename=car-engine-140477.mp3" preload="auto"></audio>
+  <audio id="ds-screech" src="https://cdn.pixabay.com/download/audio/2021/09/15/audio_47184b7dbb.mp3?filename=tire-squeal-1-89792.mp3" preload="auto"></audio>
+  <audio id="ds-crowd" src="https://cdn.pixabay.com/download/audio/2021/08/08/audio_6ff2b1a4e0.mp3?filename=crowd-applause-65486.mp3" preload="auto"></audio>
+  <audio id="ds-click" src="https://cdn.pixabay.com/download/audio/2022/02/02/audio_6d6f3b8e47.mp3?filename=mouse-click-113662.mp3" preload="auto"></audio>
+
+  <!-- Small script to wire everything together -->
+  <script>
+    (function(){
+      // Elements
+      const intro = document.getElementById('ds-intro');
+      const introLogo = intro.querySelector('.logo');
+      const introSub = intro.querySelector('.sub');
+
+      const btnSound = document.getElementById('ds-sound');
+      const btnTheme = document.getElementById('ds-theme');
+      const btnTop = document.getElementById('ds-scroll-top');
+      const btnNext = document.getElementById('ds-scroll-next');
+
+      const audioMusic = document.getElementById('ds-music');
+      const audioMotor = document.getElementById('ds-motor');
+      const audioScreech = document.getElementById('ds-screech');
+      const audioCrowd = document.getElementById('ds-crowd');
+      const audioClick = document.getElementById('ds-click');
+
+      const wheel = document.getElementById('wheel');
+      const motorSoundOriginal = document.getElementById('motorSoundOriginal');
+
+      // State
+      let ambientOn = false;
+      let lightMode = false;
+      let userInteracted = false;
+
+      // Small helper: safe play (try/catch for autoplay policies)
+      async function tryPlay(audio, vol = 0.25) {
+        try {
+          audio.volume = vol;
+          await audio.play();
+        } catch (e) {
+          // autoplay blocked; wait for user interaction
+        }
+      }
+
+      // Intro sequence
+      window.addEventListener('load', () => {
+        // animate intro: add show class shortly after load
+        setTimeout(()=> intro.classList.add('show'), 300);
+        // play motor burst after short delay (motor sound for intro)
+        setTimeout(()=> {
+          tryPlay(audioMotor, 0.55);
+        }, 900);
+
+        // After intro complete, fade overlay then start ambient music softly
+        setTimeout(async ()=> {
+          // fade out intro visually
+          intro.style.transition = "opacity 700ms ease";
+          intro.style.opacity = 0;
+          setTimeout(()=> {
+            intro.style.display = 'none';
+          }, 900);
+
+          // attempt to start ambient music (may be blocked if no user gesture)
+          await tryPlay(audioMusic, 0.18);
+          ambientOn = !audioMusic.paused && !audioMusic.ended;
+          updateSoundButton();
+        }, 3200);
+      });
+
+      // Update sound button label/icon
+      function updateSoundButton(){
+        if (ambientOn) { btnSound.textContent = '🔊'; }
+        else { btnSound.textContent = '🔈'; }
+      }
+
+      // Sound button toggles ambient music; also toggles motor original audio
+      btnSound.addEventListener('click', async (e)=>{
+        audioClick.currentTime = 0; audioClick.volume = 0.4; audioClick.play().catch(()=>{});
+        userInteracted = true;
+
+        if (audioMusic.paused) {
+          await tryPlay(audioMusic, 0.20);
+          ambientOn = true;
+          // gentle motor loop under ambient (only if original motor exists)
+          tryPlay(motorSoundOriginal, 0.18).catch(()=>{});
+        } else {
+          audioMusic.pause();
+          ambientOn = false;
+          try { motorSoundOriginal.pause(); } catch(e){}
+        }
+        updateSoundButton();
+      });
+
+      // Theme toggle: add class to body + flash effect + sfx
+      btnTheme.addEventListener('click', (e)=>{
+        audioClick.currentTime = 0; audioClick.volume = 0.35; audioClick.play().catch(()=>{});
+        // flash
+        const flash = document.createElement('div');
+        flash.className = 'ds-flash';
+        document.body.appendChild(flash);
+        setTimeout(()=> flash.remove(), 900);
+
+        document.body.classList.toggle('ds-light');
+        lightMode = document.body.classList.contains('ds-light');
+        btnTheme.textContent = lightMode ? '☀️' : '🌙';
+      });
+
+      // Scroll buttons: top and next section
+      btnTop.addEventListener('click', ()=>{
+        audioClick.currentTime = 0; audioClick.volume = 0.35; audioClick.play().catch(()=>{});
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      btnNext.addEventListener('click', ()=>{
+        audioClick.currentTime = 0; audioClick.volume = 0.35; audioClick.play().catch(()=>{});
+        // find first section below current viewport and scroll to it
+        const sections = Array.from(document.querySelectorAll('section'));
+        const curY = window.scrollY;
+        const next = sections.find(s => s.offsetTop > curY + 10);
+        if (next) next.scrollIntoView({ behavior: 'smooth' });
+      });
+
+      // Wheel click: play strong motor rev + rotate animation
+      if (wheel) {
+        wheel.style.transition = 'transform 0.6s ease';
+        wheel.addEventListener('click', async ()=>{
+          if (!userInteracted) { userInteracted = true; tryPlay(audioMusic, 0.18); ambientOn = true; updateSoundButton(); }
+          audioMotor.currentTime = 0; audioMotor.volume = 0.6; audioMotor.play().catch(()=>{});
+          audioScreech.currentTime = 0; audioScreech.volume = 0.5; audioScreech.play().catch(()=>{});
+          wheel.style.transform = 'rotate(720deg) scale(1.03)';
+          setTimeout(()=> wheel.style.transform = 'rotate(0deg) scale(1)', 700);
+        });
+      }
+
+      // When user hovers gallery images, play screech sfx lightly
+      document.querySelectorAll('.galeria img').forEach(img=>{
+        img.addEventListener('mouseenter', ()=>{
+          audioScreech.currentTime = 0; audioScreech.volume = 0.18; audioScreech.play().catch(()=>{});
+        });
+      });
+
+      // When user opens a video iframe, give subtle crowd sfx (works when clicking the iframe)
+      document.querySelectorAll('iframe').forEach(iframe=>{
+        iframe.addEventListener('mouseenter', ()=>{
+          audioCrowd.currentTime = 0; audioCrowd.volume = 0.12; audioCrowd.play().catch(()=>{});
+        });
+      });
+
+      // Scroll-reveal with IntersectionObserver (adds ds-visible)
+      const observer = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if (entry.isIntersecting) {
+            entry.target.classList.add('ds-visible');
+            // small chance to add a SFX when section enters view
+            const sfxChance = Math.random();
+            if (sfxChance > 0.88) {
+              audioScreech.currentTime = 0; audioScreech.volume = 0.14; audioScreech.play().catch(()=>{});
+            }
+            // unobserve optional to avoid repeated triggers
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      document.querySelectorAll('section').forEach(sec=>{
+        sec.classList.add('ds-fade');
+        observer.observe(sec);
+      });
+
+      // Accessibility: first user gesture starts audio (some browsers block autoplay)
+      function resumeOnUserGesture(){
+        if (!userInteracted) {
+          userInteracted = true;
+          tryPlay(audioMusic, 0.18);
+          tryPlay(motorSoundOriginal, 0.12);
+          updateSoundButton();
+        }
+        window.removeEventListener('click', resumeOnUserGesture);
+        window.removeEventListener('keydown', resumeOnUserGesture);
+      }
+      window.addEventListener('click', resumeOnUserGesture);
+      window.addEventListener('keydown', resumeOnUserGesture);
+
+      // Ensure original ambient motor (if present) follows our controls (keeps compatibility)
+      if (motorSoundOriginal) {
+        // reduce volume to blend with music
+        motorSoundOriginal.volume = 0.12;
+      }
+
+      // small optimization: pause all audio when page hidden to save CPU/battery
+      document.addEventListener('visibilitychange', ()=>{
+        if (document.hidden) {
+          audioMusic.pause();
+          try { motorSoundOriginal.pause(); } catch(e){}
+        } else {
+          if (ambientOn) { tryPlay(audioMusic, 0.18); tryPlay(motorSoundOriginal, 0.12); }
+        }
+      });
+
+      // Optional: when clicking on certain big headings we'll play a click / crowd sfx
+      document.querySelectorAll('h2').forEach(h=>{
+        h.addEventListener('click', ()=>{
+          audioClick.currentTime = 0; audioClick.volume = 0.18; audioClick.play().catch(()=>{});
+        });
+      });
+
+      // If You want to force start ambient after intro automatically (some browsers block), we already attempt on load.
+      // Done.
+    })();
+  </script>
+
+  <!-- End of body -->
+</body>
+</html>
